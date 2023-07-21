@@ -1,42 +1,22 @@
 import { FormEvent, useState } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
+import { Button } from "@nextui-org/react";
+import { Box } from "./common/layout/styled";
+import { NewMessageBox } from "./newMessage/NewMessageBox";
+import { Vertical } from "./common/layout/Vertical";
+import { MessageList } from "./lists/MessageList";
+import { Horizontal } from "./common/layout/Horizontal";
+import { MessageLists } from "./lists/MessageLists";
 
 export default function App() {
-  const messages = useQuery(api.messages.list) || [];
-
-  const [newMessageText, setNewMessageText] = useState("");
-  const sendMessage = useMutation(api.messages.send);
-
-  const [name] = useState(() => "User " + Math.floor(Math.random() * 10000));
-  async function handleSendMessage(event: FormEvent) {
-    event.preventDefault();
-    await sendMessage({ body: newMessageText, author: name });
-    setNewMessageText("");
-  }
   return (
     <main>
-      <h1>ThreadVex</h1>
-      <p className="badge">
-        <span>{name}</span>
-      </p>
-      <ul>
-        {messages.map((message) => (
-          <li key={message._id.toString()}>
-            <span>{message.author}:</span>
-            <span>{message.body}</span>
-            <span>{new Date(message._creationTime).toLocaleTimeString()}</span>
-          </li>
-        ))}
-      </ul>
-      <form onSubmit={handleSendMessage}>
-        <input
-          value={newMessageText}
-          onChange={(event) => setNewMessageText(event.target.value)}
-          placeholder="Write a message…"
-        />
-        <input type="submit" value="Send" disabled={!newMessageText} />
-      </form>
+      <Vertical css={{ minHeight: "100vh" }}>
+        <h1>ThreadVex</h1>
+        <NewMessageBox></NewMessageBox>
+        <MessageLists />
+      </Vertical>
     </main>
   );
 }
