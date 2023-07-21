@@ -288,6 +288,42 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@clerk/clerk-react@npm:^4.23.0":
+  version: 4.23.0
+  resolution: "@clerk/clerk-react@npm:4.23.0"
+  dependencies:
+    "@clerk/shared": ^0.20.0
+    "@clerk/types": ^3.48.0
+    swr: 1.3.0
+    tslib: 2.4.1
+  peerDependencies:
+    react: ">=16"
+  checksum: 1d0d097d8738419b8e4c1613123d1b5c2431bdb70f148770e293844865141f186a5a9fcf9b1cbfbb940437e6758abc0fffcdb2d3a65cf2a90005b9eda35a8274
+  languageName: node
+  linkType: hard
+
+"@clerk/shared@npm:^0.20.0":
+  version: 0.20.0
+  resolution: "@clerk/shared@npm:0.20.0"
+  dependencies:
+    glob-to-regexp: 0.4.1
+    js-cookie: 3.0.1
+    swr: 1.3.0
+  peerDependencies:
+    react: ">=16"
+  checksum: d1678b34323f9c2921aa74023101129f8f41e6f3f5785ac8b494c696b44257aea3dcb16aa5964201cac69dd848910272f8a1427904e57ef4e4e4cf8486f8d2e9
+  languageName: node
+  linkType: hard
+
+"@clerk/types@npm:^3.48.0":
+  version: 3.48.0
+  resolution: "@clerk/types@npm:3.48.0"
+  dependencies:
+    csstype: 3.1.1
+  checksum: 2dcef4d4d7621a7e3164fd13df9078d10e5247adca87a2efc4a303921801c51ba4ae138abddeb5dd260a5a4591e658adbd3943a9d6df5d4a513577f051214c0c
+  languageName: node
+  linkType: hard
+
 "@esbuild/android-arm64@npm:0.18.14":
   version: 0.18.14
   resolution: "@esbuild/android-arm64@npm:0.18.14"
@@ -2109,6 +2145,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"csstype@npm:3.1.1":
+  version: 3.1.1
+  resolution: "csstype@npm:3.1.1"
+  checksum: 1f7b4f5fdd955b7444b18ebdddf3f5c699159f13e9cf8ac9027ae4a60ae226aef9bbb14a6e12ca7dba3358b007cee6354b116e720262867c398de6c955ea451d
+  languageName: node
+  linkType: hard
+
 "csstype@npm:^3.0.2":
   version: 3.1.2
   resolution: "csstype@npm:3.1.2"
@@ -2791,6 +2834,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"glob-to-regexp@npm:0.4.1":
+  version: 0.4.1
+  resolution: "glob-to-regexp@npm:0.4.1"
+  checksum: e795f4e8f06d2a15e86f76e4d92751cf8bbfcf0157cea5c2f0f35678a8195a750b34096b1256e436f0cebc1883b5ff0888c47348443e69546a5a87f9e1eb1167
+  languageName: node
+  linkType: hard
+
 "glob@npm:^10.2.2":
   version: 10.3.3
   resolution: "glob@npm:10.3.3"
@@ -3238,6 +3288,13 @@ __metadata:
     "@pkgjs/parseargs":
       optional: true
   checksum: e29291c0d0f280a063fa18fbd1e891ab8c2d7519fd34052c0ebde38538a15c603140d60c2c7f432375ff7ee4c5f1c10daa8b2ae19a97c3d4affe308c8360c1df
+  languageName: node
+  linkType: hard
+
+"js-cookie@npm:3.0.1":
+  version: 3.0.1
+  resolution: "js-cookie@npm:3.0.1"
+  checksum: bb48de67e2a6bd1ae3dfd6b2d5a167c33dd0c5a37e909206161eb0358c98f17cb55acd55827a58e9eea3630d89444e7479f7938ef4420dda443218b8c434a4c3
   languageName: node
   linkType: hard
 
@@ -3820,6 +3877,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prettier@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "prettier@npm:3.0.0"
+  bin:
+    prettier: bin/prettier.cjs
+  checksum: 6a832876a1552dc58330d2467874e5a0b46b9ccbfc5d3531eb69d15684743e7f83dc9fbd202db6270446deba9c82b79d24383d09924c462b457136a759425e33
+  languageName: node
+  linkType: hard
+
 "promise-retry@npm:^2.0.1":
   version: 2.0.1
   resolution: "promise-retry@npm:2.0.1"
@@ -4379,6 +4445,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"swr@npm:1.3.0":
+  version: 1.3.0
+  resolution: "swr@npm:1.3.0"
+  peerDependencies:
+    react: ^16.11.0 || ^17.0.0 || ^18.0.0
+  checksum: e7a184f0d560e9c8be85c023cc8e65e56a88a6ed46f9394b301b07f838edca23d2e303685319a4fcd620b81d447a7bcb489c7fa0a752c259f91764903c690cdb
+  languageName: node
+  linkType: hard
+
 "tar@npm:^6.1.11, tar@npm:^6.1.2":
   version: 6.1.15
   resolution: "tar@npm:6.1.15"
@@ -4397,6 +4472,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "threadvex@workspace:."
   dependencies:
+    "@clerk/clerk-react": ^4.23.0
     "@nextui-org/react": ^1.0.0-beta.13
     "@types/babel__core": ^7.20.1
     "@types/node": ^18.16.19
@@ -4405,6 +4481,7 @@ __metadata:
     "@vitejs/plugin-react": ^4.0.3
     convex: ^0.19.1
     npm-run-all: ^4.1.5
+    prettier: ^3.0.0
     react: ^18.2.0
     react-dom: ^18.2.0
     react-icons: ^4.10.1
@@ -4441,6 +4518,13 @@ __metadata:
   version: 0.0.3
   resolution: "tr46@npm:0.0.3"
   checksum: 726321c5eaf41b5002e17ffbd1fb7245999a073e8979085dacd47c4b4e8068ff5777142fc6726d6ca1fd2ff16921b48788b87225cbc57c72636f6efa8efbffe3
+  languageName: node
+  linkType: hard
+
+"tslib@npm:2.4.1":
+  version: 2.4.1
+  resolution: "tslib@npm:2.4.1"
+  checksum: 19480d6e0313292bd6505d4efe096a6b31c70e21cf08b5febf4da62e95c265c8f571f7b36fcc3d1a17e068032f59c269fab3459d6cd3ed6949eafecf64315fca
   languageName: node
   linkType: hard
 

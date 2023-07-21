@@ -3,7 +3,7 @@ import { query } from "./_generated/server";
 import { Doc } from "./_generated/dataModel";
 
 export const list = query(async ({ db }): Promise<Doc<"messages">[]> => {
-  return await db.query("messages").collect();
+  return await db.query("messages").order("desc").collect();
 });
 
 export const send = mutation(

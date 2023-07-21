@@ -8,16 +8,20 @@ import { Vertical } from "../common/layout/Vertical";
 import { AdditionalPostMediaOptions } from "./AdditionalPostMediaOptions";
 import { UserName } from "../common/avatar/UserName";
 import { FormEvent, useState } from "react";
-import { useMutation } from "convex/react";
+import { useConvexAuth, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
+import { useUser, useSignIn, useClerk } from "@clerk/clerk-react";
 
 interface Props {}
 
 export const NewMessageBox: React.FC<Props> = ({}) => {
   const [text, setText] = useState("");
   const sendMessage = useMutation(api.messages.send);
+  const { user } = useUser();
 
   const [name] = useState(() => "User " + Math.floor(Math.random() * 10000));
+  const clerk = useClerk();
+  const { isAuthenticated } = useConvexAuth();
 
   return (
     <Horizontal
@@ -34,7 +38,7 @@ export const NewMessageBox: React.FC<Props> = ({}) => {
         <Avatar />
       </Box>
       <Vertical css={{ flex: 1, gap: `10px` }}>
-        <UserName name="mikeysee" />
+        <UserName name={user?.username ?? "me"} />
         <Textarea
           aria-label="New message box"
           css={{ flex: 1 }}
@@ -52,7 +56,11 @@ export const NewMessageBox: React.FC<Props> = ({}) => {
             auto
             disabled={!text}
             onClick={async (e) => {
-              e.preventDefault();
+              if (!isAuthenticated) {
+                clerk.openSignIn();
+                return;
+              }
+
               await sendMessage({ body: text, author: name });
               setText("");
             }}

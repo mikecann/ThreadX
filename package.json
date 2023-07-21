@@ -9,6 +9,7 @@
     "dev:init": "convex dev --once"
   },
   "dependencies": {
+    "@clerk/clerk-react": "^4.23.0",
     "@nextui-org/react": "^1.0.0-beta.13",
     "convex": "^0.19.1",
     "react": "^18.2.0",
@@ -22,6 +23,7 @@
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.3",
     "npm-run-all": "^4.1.5",
+    "prettier": "^3.0.0",
     "typescript": "^5.1.6",
     "vite": "^4.4.4",
     "vite-plugin-checker": "^0.6.1"
