@@ -1,12 +1,12 @@
 import * as React from "react";
-import { Horizontal } from "../common/layout/Horizontal";
 import { MessageList } from "./MessageList";
+import { HStack } from "@chakra-ui/react";
 
 interface Props {}
 
 export const MessageLists: React.FC<Props> = ({}) => {
   return (
-    <Horizontal
+    <HStack
       css={{
         backgroundColor: `rgba(0,0,0,0.5)`,
         flex: 1,
@@ -16,6 +16,6 @@ export const MessageLists: React.FC<Props> = ({}) => {
     >
       <MessageList />
       <MessageList />
-    </Horizontal>
+    </HStack>
   );
 };

@@ -9,9 +9,12 @@
     "dev:init": "convex dev --once"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.0",
     "@clerk/clerk-react": "^4.23.0",
-    "@nextui-org/react": "^1.0.0-beta.13",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "convex": "^0.19.1",
+    "framer-motion": "^10.13.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1"

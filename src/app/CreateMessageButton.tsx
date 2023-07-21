@@ -1,26 +1,21 @@
 import * as React from "react";
-import { Box } from "../common/layout/styled";
 import { AiOutlinePlus } from "react-icons/ai";
-import { Center } from "../common/layout/Center";
+import { Button, Center, IconButton } from "@chakra-ui/react";
+import { NewMessageModal } from "../newMessage/NewMessageModal";
 
 interface Props {}
 
 export const CreateMessageButton: React.FC<Props> = ({}) => {
+  const [isOpen, setIsOpen] = React.useState(false);
   return (
-    <Center
-      css={{
-        width: 50,
-        height: 50,
-        borderRadius: 4,
-        fontSize: 24,
-        backgroundColor: "$blue600",
-        cursor: "pointer",
-        "&:hover": {
-          backgroundColor: "$blue700",
-        },
-      }}
-    >
-      <AiOutlinePlus />
-    </Center>
+    <>
+      <IconButton
+        aria-label={"create"}
+        colorScheme="blue"
+        icon={<AiOutlinePlus />}
+        onClick={() => setIsOpen(true)}
+      />
+      <NewMessageModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+    </>
   );
 };
