@@ -14,7 +14,11 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as likes from "../likes";
+import type * as lists from "../lists";
 import type * as messages from "../messages";
+import type * as users from "../users";
+import type * as utils_misc from "../utils/misc";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -25,7 +29,11 @@ import type * as messages from "../messages";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  likes: typeof likes;
+  lists: typeof lists;
   messages: typeof messages;
+  users: typeof users;
+  "utils/misc": typeof utils_misc;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

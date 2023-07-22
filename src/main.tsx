@@ -14,7 +14,7 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ChakraProvider theme={theme}>
       <ConvexProvider client={convex}>
-        <ClerkProvider publishableKey="pk_test_dG91Z2gtY29icmEtMTMuY2xlcmsuYWNjb3VudHMuZGV2JA">
+        <ClerkProvider publishableKey="pk_test_aGVscGZ1bC1hbnQtNzcuY2xlcmsuYWNjb3VudHMuZGV2JA">
           <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
             <App />
           </ConvexProviderWithClerk>

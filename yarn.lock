@@ -4108,6 +4108,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mobx-react-lite@npm:^4.0.3":
+  version: 4.0.3
+  resolution: "mobx-react-lite@npm:4.0.3"
+  dependencies:
+    use-sync-external-store: ^1.2.0
+  peerDependencies:
+    mobx: ^6.9.0
+    react: ^16.8.0 || ^17 || ^18
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 327151c61f6520605ce855b2972f30f4b4d9e277d546be5bf0abc663cf09f3e242193603d51d41a9e847fd359a3b9a5cfbeb89ccbb0905f04a2e1b38021d3025
+  languageName: node
+  linkType: hard
+
+"mobx@npm:^6.10.0":
+  version: 6.10.0
+  resolution: "mobx@npm:6.10.0"
+  checksum: 8279d5a978d845664fb1830ce1e7f3fcebd5809bd9be6f2cac9b190e07cf6f16b09581107cc2d1ff7097e979da758fefd9ac68db76c814b8e783e59d0b8e418c
+  languageName: node
+  linkType: hard
+
 "ms@npm:2.1.2":
   version: 2.1.2
   resolution: "ms@npm:2.1.2"
@@ -5123,9 +5147,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"threadvex@workspace:.":
+"threadx@workspace:.":
   version: 0.0.0-use.local
-  resolution: "threadvex@workspace:."
+  resolution: "threadx@workspace:."
   dependencies:
     "@chakra-ui/react": ^2.8.0
     "@clerk/clerk-react": ^4.23.0
@@ -5138,6 +5162,8 @@ __metadata:
     "@vitejs/plugin-react": ^4.0.3
     convex: ^0.19.1
     framer-motion: ^10.13.0
+    mobx: ^6.10.0
+    mobx-react-lite: ^4.0.3
     npm-run-all: ^4.1.5
     prettier: ^3.0.0
     react: ^18.2.0
@@ -5360,6 +5386,15 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 925d1922f9853e516eaad526b6fed1be38008073067274f0ecc3f56b17bb8ab63480140dd7c271f94150027c996cea4efe83d3e3525e8f3eda22055f6a39220b
+  languageName: node
+  linkType: hard
+
+"use-sync-external-store@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "use-sync-external-store@npm:1.2.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 5c639e0f8da3521d605f59ce5be9e094ca772bd44a4ce7322b055a6f58eeed8dda3c94cabd90c7a41fb6fa852210092008afe48f7038792fd47501f33299116a
   languageName: node
   linkType: hard
 

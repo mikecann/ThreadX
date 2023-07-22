@@ -1,12 +1,14 @@
 import * as React from "react";
-import { UserName } from "../../common/avatar/UserName";
+import { UserNameAndHandle } from "../../common/avatar/UserNameAndHandle";
 import { MessageActionButtons } from "./MessageActionButtons";
 import { RepliesAndLikes } from "./RepliesAndLikes";
-import { Doc } from "../../../convex/_generated/dataModel";
 import { Avatar, Box, HStack, VStack } from "@chakra-ui/react";
+import { api } from "../../../convex/_generated/api";
+
+export type DetailedMessage = (typeof api.messages.listAll)["_returnType"][number];
 
 interface Props {
-  message: Doc<"messages">;
+  message: DetailedMessage;
 }
 
 export const Message: React.FC<Props> = ({ message }) => {
@@ -16,22 +18,23 @@ export const Message: React.FC<Props> = ({ message }) => {
 
   return (
     <HStack
-      width={`400px`}
-      background={"rgba(0,0,0,1)"}
-      border={`1px solid rgba(255,255,255,0.8)`}
-      borderRadius={`6px`}
+      minWidth={`100px`}
+      background={"rgba(0,0,0,0.5)"}
+      borderTop={`1px solid rgba(255,255,255,0.8)`}
+      borderBottom={`1px solid rgba(255,255,255,0.8)`}
+      borderRadius={`4px`}
       padding={`10px`}
       spacing={"20px"}
       alignItems={"flex-start"}
     >
       <Box>
-        <Avatar />
+        <Avatar src={message.author.pictureUrl ?? undefined} />
       </Box>
       <VStack alignItems={"flex-start"} flex={1} spacing={"10px"}>
-        <UserName name={message.author} />
+        <UserNameAndHandle name={message.author.name} handle={message.author.handle} />
         <Box css={{ flex: 1 }}>{message.body}</Box>
-        <MessageActionButtons />
-        <RepliesAndLikes />
+        <MessageActionButtons message={message} />
+        <RepliesAndLikes likes={message.likes} />
       </VStack>
     </HStack>
   );

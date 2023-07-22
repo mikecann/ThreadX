@@ -16,7 +16,7 @@ import { AdditionalPostMediaOptions } from "./AdditionalPostMediaOptions";
 import { useState } from "react";
 import { useConvexAuth, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
-import { useClerks } from "@clerk/clerk-react";
+import { useClerk } from "@clerk/clerk-react";
 import { useErrors } from "../common/misc/useErrors";
 
 interface Props {
@@ -28,9 +28,21 @@ export const NewMessageModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [text, setText] = useState("");
   const sendMessage = useMutation(api.messages.send);
   const { onNonCriticalError } = useErrors();
-  const [name] = useState(() => "User " + Math.floor(Math.random() * 10000));
   const clerk = useClerk();
   const { isAuthenticated } = useConvexAuth();
+
+  const onSend = () => {
+    if (!isAuthenticated) {
+      clerk.openSignIn();
+      return;
+    }
+
+    sendMessage({ body: text })
+      .then(() => setText(""))
+      .catch(onNonCriticalError);
+
+    onClose();
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"lg"}>
@@ -46,6 +58,12 @@ export const NewMessageModal: React.FC<Props> = ({ isOpen, onClose }) => {
             rows={4}
             onChange={(e) => setText(e.target.value)}
             background={"rgba(255,255,255,0.1)"}
+            onKeyDown={(event) => {
+              if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+                event.preventDefault();
+                onSend();
+              }
+            }}
           />
         </ModalBody>
         <ModalFooter>
@@ -57,16 +75,7 @@ export const NewMessageModal: React.FC<Props> = ({ isOpen, onClose }) => {
               css={{ transition: `all 0.2s ease` }}
               color={"gradient"}
               isDisabled={!text}
-              onClick={async (e) => {
-                if (!isAuthenticated) {
-                  clerk.openSignIn();
-                  return;
-                }
-                sendMessage({ body: text, author: name })
-                  .then(() => setText(""))
-                  .catch(onNonCriticalError);
-                onClose();
-              }}
+              onClick={onSend}
             >
               Post
             </Button>

@@ -2,24 +2,31 @@ import * as React from "react";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Message } from "./messages/Message";
-import { VStack } from "@chakra-ui/react";
+import { Spinner, VStack } from "@chakra-ui/react";
+import { ListHeader } from "./ListHeader";
+import { observer } from "mobx-react-lite";
+import { ListListsDoc } from "./AuthenticatedMessageLists";
+import { AllMessages } from "./AllMessages";
+import { ListMessages } from "./ListMessages";
 
-interface Props {}
+interface Props {
+  list?: ListListsDoc;
+}
 
-export const MessageList: React.FC<Props> = ({}) => {
-  const messages = useQuery(api.messages.list) || [];
-
+export const MessageList: React.FC<Props> = observer(({ list }) => {
   return (
     <VStack
-      minWidth={`200px`}
+      width={`400px`}
+      minWidth={`400px`}
       borderRadius={`2px`}
       background={`rgba(0,0,0,0.5)`}
-      padding={`10px`}
-      gap={`10px`}
+      padding={`10px 15px 15px 15px`}
+      alignItems={"stretch"}
     >
-      {messages.map((message) => (
-        <Message key={message._id.toString()} message={message} />
-      ))}
+      <ListHeader list={list} />
+      <VStack gap={`2px`} alignItems={"stretch"}>
+        {list ? <ListMessages listId={list._id} /> : <AllMessages />}
+      </VStack>
     </VStack>
   );
-};
+});

@@ -24,7 +24,7 @@ export const AppTitle: React.FC<Props> = ({}) => {
         color={"white"}
         opacity={0.5}
       >
-        ThreadVex
+        ThreadX
         {/*<span style={{ color: "#F5B01A" }}>V</span>*/}
         {/*<span style={{ color: "#EE342F" }}>e</span>*/}
         {/*<span style={{ color: "#8D2576" }}>x</span>*/}

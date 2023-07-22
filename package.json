@@ -1,11 +1,13 @@
 {
-  "name": "threadvex",
+  "name": "threadx",
   "version": "0.0.0",
   "scripts": {
     "dev": "npm-run-all dev:init --parallel dev:server dev:client",
     "build": "tsc && vite build",
     "dev:server": "convex dev",
-    "dev:client": "vite --open",
+    "dev:client": "npm-run-all --parallel dev:bundler dev:types",
+    "dev:bundler": "vite --open",
+    "dev:types": "tsc --watch",
     "dev:init": "convex dev --once"
   },
   "dependencies": {
@@ -15,6 +17,8 @@
     "@emotion/styled": "^11.11.0",
     "convex": "^0.19.1",
     "framer-motion": "^10.13.0",
+    "mobx": "^6.10.0",
+    "mobx-react-lite": "^4.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1"

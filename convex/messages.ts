@@ -1,14 +1,75 @@
-import { mutation } from "./_generated/server";
-import { query } from "./_generated/server";
+import { DatabaseReader, mutation, query } from "./_generated/server";
+import { v } from "convex/values";
+import { ensure } from "../src/common/misc/ensure";
+import { iife, pick } from "../src/common/misc/misc";
+import { findMe, getMe } from "./utils/misc";
 import { Doc } from "./_generated/dataModel";
 
-export const list = query(async ({ db }): Promise<Doc<"messages">[]> => {
-  return await db.query("messages").order("desc").collect();
+const convertToDetailedMessage = async ({
+  db,
+  messages,
+  me,
+}: {
+  db: DatabaseReader;
+  messages: Doc<"messages">[];
+  me?: Doc<"users">;
+}) =>
+  Promise.all(
+    messages.map(async (message) => ({
+      ...message,
+      isLikedByMe: await iife(async () => {
+        if (!me) return false;
+        const like = await db
+          .query("likes")
+          .withIndex("by_messageId_likerId", (q) =>
+            q.eq("messageId", message._id).eq("likerId", me._id),
+          )
+          .unique();
+        return like != null;
+      }),
+      author: await iife(async () => {
+        const user = ensure(await db.get(message.authorId), `missing message author`);
+        return pick(user, "_id", "name", "handle", "pictureUrl");
+      }),
+    })),
+  );
+
+export const listAll = query({
+  args: {},
+  handler: async (context) => {
+    const me = await findMe(context);
+    const messages = await context.db.query("messages").order("desc").take(10);
+    return convertToDetailedMessage({ ...context, messages, me });
+  },
 });
 
-export const send = mutation(
-  async ({ db }, { body, author }: { body: string; author: string }) => {
-    const message = { body, author };
-    await db.insert("messages", message);
-  }
-);
+export const listForList = query({
+  args: {
+    listId: v.id("lists"),
+  },
+  handler: async (context, { listId }) => {
+    const me = await getMe(context);
+    const list = await context.db.get(listId);
+    if (!list) throw new Error(`cant find list ${listId}`);
+    if (list.ownerId != me._id) throw new Error(`cant access list ${listId}`);
+
+    const messages = list.query
+      ? await context.db
+          .query("messages")
+          .withSearchIndex("search_by_body", (q) => q.search("body", list.query))
+          .take(10)
+      : await context.db.query("messages").take(10);
+
+    return convertToDetailedMessage({ ...context, messages, me });
+  },
+});
+
+export const send = mutation({
+  args: {
+    body: v.string(),
+  },
+  handler: async ({ auth, db }, { body }) => {
+    const user = await getMe({ auth, db });
+    await db.insert("messages", { body, authorId: user._id, likes: BigInt(0) });
+  },
+});
