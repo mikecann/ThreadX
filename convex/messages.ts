@@ -38,7 +38,10 @@ export const listAll = query({
   args: {},
   handler: async (context) => {
     const me = await findMe(context);
-    const messages = await context.db.query("messages").order("desc").take(10);
+    const messages = await context.db
+      .query("messages")
+      .filter((q) => q.eq(q.field("isReplyToMessageId"), undefined))
+      .take(10);
     return convertToDetailedMessage({ ...context, messages, me });
   },
 });
@@ -57,8 +60,28 @@ export const listForList = query({
       ? await context.db
           .query("messages")
           .withSearchIndex("search_by_body", (q) => q.search("body", list.query))
+          .filter((q) => q.eq(q.field("isReplyToMessageId"), undefined))
           .take(10)
-      : await context.db.query("messages").take(10);
+      : await context.db
+          .query("messages")
+          .filter((q) => q.eq(q.field("isReplyToMessageId"), undefined))
+          .take(10);
+
+    return convertToDetailedMessage({ ...context, messages, me });
+  },
+});
+
+export const listReplies = query({
+  args: {
+    toMessageId: v.id("messages"),
+  },
+  handler: async (context, { toMessageId }) => {
+    const me = await findMe(context);
+
+    const messages = await context.db
+      .query("messages")
+      .filter((q) => q.eq(q.field("isReplyToMessageId"), toMessageId))
+      .take(10);
 
     return convertToDetailedMessage({ ...context, messages, me });
   },
@@ -70,6 +93,25 @@ export const send = mutation({
   },
   handler: async ({ auth, db }, { body }) => {
     const user = await getMe({ auth, db });
-    await db.insert("messages", { body, authorId: user._id, likes: BigInt(0) });
+    await db.insert("messages", { body, authorId: user._id, likes: BigInt(0), replies: BigInt(0) });
+  },
+});
+
+export const reply = mutation({
+  args: {
+    body: v.string(),
+    toMessageId: v.id("messages"),
+  },
+  handler: async ({ auth, db }, { body, toMessageId }) => {
+    const user = await getMe({ auth, db });
+    await db.insert("messages", {
+      body,
+      authorId: user._id,
+      likes: BigInt(0),
+      isReplyToMessageId: toMessageId,
+      replies: BigInt(0),
+    });
+    const message = ensure(await db.get(toMessageId), `couldnt get message ${toMessageId}`);
+    await db.patch(toMessageId, { replies: message.replies + BigInt(1) });
   },
 });

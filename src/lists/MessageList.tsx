@@ -16,7 +16,6 @@ interface Props {
 export const MessageList: React.FC<Props> = observer(({ list }) => {
   return (
     <VStack
-      width={`400px`}
       minWidth={`400px`}
       borderRadius={`2px`}
       background={`rgba(0,0,0,0.5)`}
@@ -24,7 +23,7 @@ export const MessageList: React.FC<Props> = observer(({ list }) => {
       alignItems={"stretch"}
     >
       <ListHeader list={list} />
-      <VStack gap={`2px`} alignItems={"stretch"}>
+      <VStack gap={`2px`} alignItems={"stretch"} width={"100%"}>
         {list ? <ListMessages listId={list._id} /> : <AllMessages />}
       </VStack>
     </VStack>

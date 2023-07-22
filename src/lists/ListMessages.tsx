@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const ListMessages: React.FC<Props> = observer(({ listId }) => {
-  const messages = useQuery(api.messages.listForList, { listId }) || [];
+  const messages = useQuery(api.messages.listForList, { listId });
   if (!messages) return <Spinner />;
   return (
     <>

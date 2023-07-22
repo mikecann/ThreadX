@@ -6,6 +6,8 @@ export default defineSchema({
     authorId: v.id("users"),
     body: v.string(),
     likes: v.int64(),
+    replies: v.int64(),
+    isReplyToMessageId: v.optional(v.id("messages")),
   }).searchIndex("search_by_body", {
     searchField: "body",
     filterFields: ["authorId"],
