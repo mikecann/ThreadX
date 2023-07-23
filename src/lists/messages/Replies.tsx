@@ -24,14 +24,15 @@ export const Replies: React.FC<Props> = ({ toMessage, onClose }) => {
       marginLeft={"20px"}
       paddingLeft={"20px"}
       borderLeft={"1px dashed rgba(255,255,255,0.4)"}
+      alignItems={"flex-start"}
     >
-      <HStack width={"100%"}>
+      <HStack width={"400px"}>
         <Button
           colorScheme={"blue"}
           leftIcon={<IoCreate />}
           onClick={() => setIsReplyModalOpen(true)}
         >
-          Post Reply
+          Reply
         </Button>
         <Box flex={1} />
         <Button onClick={onClose} leftIcon={<BiSolidArrowToTop />}>

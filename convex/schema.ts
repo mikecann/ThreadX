@@ -8,6 +8,7 @@ export default defineSchema({
     likes: v.int64(),
     replies: v.int64(),
     isReplyToMessageId: v.optional(v.id("messages")),
+    imageId: v.optional(v.string()),
   }).searchIndex("search_by_body", {
     searchField: "body",
     filterFields: ["authorId"],
@@ -22,11 +23,22 @@ export default defineSchema({
     .index("by_token", ["tokenIdentifier"])
     .index("by_handle", ["handle"]),
 
-  lists: defineTable({
-    ownerId: v.id("users"),
-    name: v.string(),
-    query: v.string(),
-  }).index("by_ownerId", ["ownerId"]),
+  lists: defineTable(
+    v.union(
+      v.object({
+        kind: v.literal("all_messages"),
+        ownerId: v.id("users"),
+        name: v.string(),
+      }),
+      v.object({
+        kind: v.literal("search"),
+        ownerId: v.id("users"),
+        name: v.string(),
+        query: v.string(),
+        includeReplies: v.boolean(),
+      }),
+    ),
+  ).index("by_ownerId", ["ownerId"]),
 
   likes: defineTable({
     likerId: v.id("users"),

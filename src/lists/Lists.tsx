@@ -13,7 +13,7 @@ export const Lists: React.FC<Props> = ({}) => {
 
   return (
     <HStack
-      // backgroundColor={`rgba(0,0,0,0.5)`}
+      // backgroundColor={`rgba(255,0,0,0.5)`}
       spacing={`10px`}
       padding={`10px`}
       alignItems={"flex-start"}

@@ -1,7 +1,7 @@
 import * as React from "react";
-import { UserNameAndHandle } from "../../common/avatar/UserNameAndHandle";
+import { UsernameHandleAndDate } from "../../common/avatar/UsernameHandleAndDate";
 import { MessageActionButtons } from "./MessageActionButtons";
-import { Avatar, Box, HStack, VStack } from "@chakra-ui/react";
+import { Avatar, Box, HStack, Image, Link, VStack } from "@chakra-ui/react";
 import { api } from "../../../convex/_generated/api";
 import { Replies } from "./Replies";
 
@@ -13,18 +13,15 @@ interface Props {
 }
 
 export const Message: React.FC<Props> = ({ message, disableActions }) => {
-  // <span>{new Date(message._creationTime).toLocaleTimeString()}</span>
-
   const [isShowingReplies, setIsShowingReplies] = React.useState(false);
-
   return (
-    <VStack>
+    <VStack alignItems={"flex-start"}>
       <HStack
         width={"400px"}
         background={"rgba(0,0,0,0.5)"}
-        borderTop={`1px solid rgba(255,255,255,0.8)`}
-        borderBottom={`1px solid rgba(255,255,255,0.8)`}
-        borderRadius={`4px`}
+        borderTop={`1px solid rgba(255,255,255,0.5)`}
+        borderBottom={`1px solid rgba(255,255,255,0.5)`}
+        borderRadius={`2px`}
         padding={`10px`}
         spacing={"20px"}
         alignItems={"flex-start"}
@@ -33,8 +30,17 @@ export const Message: React.FC<Props> = ({ message, disableActions }) => {
           <Avatar src={message.author.pictureUrl ?? undefined} />
         </Box>
         <VStack alignItems={"flex-start"} flex={1} spacing={"10px"}>
-          <UserNameAndHandle name={message.author.name} handle={message.author.handle} />
+          <UsernameHandleAndDate
+            name={message.author.name}
+            handle={message.author.handle}
+            createdAt={message._creationTime}
+          />
           <Box css={{ flex: 1 }}>{message.body}</Box>
+          {message.imageUrl && (
+            <Link href={message.imageUrl}>
+              <Image src={message.imageUrl} maxWidth={"200px"} maxHeight={"200px"} />
+            </Link>
+          )}
           {disableActions ? null : (
             <MessageActionButtons
               message={message}

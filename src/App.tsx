@@ -6,7 +6,10 @@ import { AppSidebar } from "./app/AppSidebar";
 export default function App() {
   useStoreUserEffect();
   return (
-    <Box background={`linear-gradient(45deg, #180339, #022d10)`}>
+    <Box
+      backgroundColor={`#FF3CAC`}
+      background={`linear-gradient(225deg, #16494a 0%, #1c0941 50%, #000508 100%)`}
+    >
       <AppSidebar />
       <Lists />
     </Box>

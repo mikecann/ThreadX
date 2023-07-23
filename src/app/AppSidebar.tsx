@@ -17,6 +17,7 @@ export const AppSidebar: React.FC<Props> = ({}) => {
       left={0}
       padding={"10px 10px"}
       spacing={`20px`}
+      zIndex={100}
     >
       <Center>
         <MyAvatar />

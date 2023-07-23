@@ -20,6 +20,8 @@ import { DetailedMessage, Message } from "./Message";
 import { AdditionalPostMediaOptions } from "../../newMessage/AdditionalPostMediaOptions";
 import { api } from "../../../convex/_generated/api";
 import { useErrors } from "../../common/misc/useErrors";
+import { useAttachImage } from "../../newMessage/useAttachImage";
+import { PreviewImage } from "../../newMessage/PreviewImage";
 
 interface Props {
   isOpen: boolean;
@@ -28,6 +30,8 @@ interface Props {
 }
 
 export const NewReplyModal: React.FC<Props> = ({ isOpen, onClose, message }) => {
+  const { imagePreview, setSelectedImage, isUploading, storageId } = useAttachImage();
+
   const [text, setText] = useState("");
   const reply = useMutation(api.messages.reply);
   const { onNonCriticalError } = useErrors();
@@ -40,7 +44,7 @@ export const NewReplyModal: React.FC<Props> = ({ isOpen, onClose, message }) => 
       return;
     }
 
-    reply({ body: text, toMessageId: message._id })
+    reply({ body: text, toMessageId: message._id, imageId: storageId })
       .then(() => setText(""))
       .catch(onNonCriticalError);
 
@@ -70,17 +74,21 @@ export const NewReplyModal: React.FC<Props> = ({ isOpen, onClose, message }) => 
                 }
               }}
             />
+            {imagePreview && (
+              <PreviewImage src={imagePreview} onRemove={() => setSelectedImage(null)} />
+            )}
           </VStack>
         </ModalBody>
         <ModalFooter>
           <HStack width={"100%"}>
             <Box css={{ flex: 1 }}>
-              <AdditionalPostMediaOptions />
+              <AdditionalPostMediaOptions onImageSelected={setSelectedImage} />
             </Box>
             <Button
               css={{ transition: `all 0.2s ease` }}
               color={"gradient"}
-              isDisabled={!text}
+              isLoading={isUploading}
+              isDisabled={!text || isUploading}
               onClick={onSend}
             >
               Post Reply

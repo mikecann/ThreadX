@@ -5,8 +5,9 @@
    */
   "compilerOptions": {
     /* These settings are not required by Convex and can be modified. */
-    "allowJs": true,
+    "allowJs": false,
     "strict": true,
+    "skipLibCheck": true,
 
     /* These compiler options are required by Convex */
     "target": "ESNext",

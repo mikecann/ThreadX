@@ -16,7 +16,7 @@ export const AppTitle: React.FC<Props> = ({}) => {
       <Text
         position={"absolute"}
         top={0}
-        left={`-10px`}
+        left={`-3px`}
         transform={"rotate(-90deg)"}
         transformOrigin={"top left"}
         fontSize={"2em"}

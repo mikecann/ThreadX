@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   HStack,
+  Image,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -11,13 +12,16 @@ import {
   ModalHeader,
   ModalOverlay,
   Textarea,
+  VStack,
 } from "@chakra-ui/react";
 import { AdditionalPostMediaOptions } from "./AdditionalPostMediaOptions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useConvexAuth, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useClerk } from "@clerk/clerk-react";
 import { useErrors } from "../common/misc/useErrors";
+import { useAttachImage } from "./useAttachImage";
+import { PreviewImage } from "./PreviewImage";
 
 interface Props {
   isOpen: boolean;
@@ -25,6 +29,8 @@ interface Props {
 }
 
 export const NewMessageModal: React.FC<Props> = ({ isOpen, onClose }) => {
+  const { imagePreview, setSelectedImage, isUploading, storageId } = useAttachImage();
+
   const [text, setText] = useState("");
   const sendMessage = useMutation(api.messages.send);
   const { onNonCriticalError } = useErrors();
@@ -37,7 +43,7 @@ export const NewMessageModal: React.FC<Props> = ({ isOpen, onClose }) => {
       return;
     }
 
-    sendMessage({ body: text })
+    sendMessage({ body: text, imageId: storageId })
       .then(() => setText(""))
       .catch(onNonCriticalError);
 
@@ -51,30 +57,36 @@ export const NewMessageModal: React.FC<Props> = ({ isOpen, onClose }) => {
         <ModalHeader>Create Thread</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Textarea
-            aria-label="New message box"
-            placeholder="Your new message"
-            value={text}
-            rows={4}
-            onChange={(e) => setText(e.target.value)}
-            background={"rgba(255,255,255,0.1)"}
-            onKeyDown={(event) => {
-              if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
-                event.preventDefault();
-                onSend();
-              }
-            }}
-          />
+          <VStack>
+            <Textarea
+              aria-label="New message box"
+              placeholder="Your new message"
+              value={text}
+              rows={4}
+              onChange={(e) => setText(e.target.value)}
+              background={"rgba(255,255,255,0.1)"}
+              onKeyDown={(event) => {
+                if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+                  event.preventDefault();
+                  onSend();
+                }
+              }}
+            />
+            {imagePreview && (
+              <PreviewImage src={imagePreview} onRemove={() => setSelectedImage(null)} />
+            )}
+          </VStack>
         </ModalBody>
         <ModalFooter>
           <HStack width={"100%"}>
             <Box css={{ flex: 1 }}>
-              <AdditionalPostMediaOptions />
+              <AdditionalPostMediaOptions onImageSelected={setSelectedImage} />
             </Box>
             <Button
               css={{ transition: `all 0.2s ease` }}
               color={"gradient"}
-              isDisabled={!text}
+              isDisabled={!text || isUploading}
+              isLoading={isUploading}
               onClick={onSend}
             >
               Post

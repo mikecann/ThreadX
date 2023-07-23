@@ -46,7 +46,11 @@ export const store = mutation({
     });
 
     // While we are at it lets create the initial list for the user
-    await ctx.db.insert("lists", { name: "All Threads", ownerId: createdUser, query: "" });
+    await ctx.db.insert("lists", {
+      name: "All Threads",
+      ownerId: createdUser,
+      kind: "all_messages",
+    });
 
     return createdUser;
   },

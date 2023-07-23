@@ -22,17 +22,27 @@ export const list = query({
 
 export const create = mutation({
   args: {
-    name: v.string(),
-    query: v.string(),
+    data: v.union(
+      v.object({
+        kind: v.literal("all_messages"),
+        name: v.string(),
+      }),
+      v.object({
+        kind: v.literal("search"),
+        name: v.string(),
+        query: v.string(),
+        includeReplies: v.boolean(),
+      }),
+    ),
   },
-  handler: async ({ auth, db }, { name, query }) => {
+  handler: async ({ auth, db }, { data }) => {
     const user = await getMe({ auth, db });
 
     const count = await getListsForUser({ db, user }).then((c) => c.length);
 
-    if (count >= 10) throw new Error("too many lists");
+    if (count >= 10) throw new Error("too many lists.");
 
-    await db.insert("lists", { name, ownerId: user._id, query });
+    await db.insert("lists", { ...data, ownerId: user._id });
   },
 });
 
