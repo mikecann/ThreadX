@@ -107,6 +107,8 @@ export const send = mutation({
     imageId: v.optional(v.string()),
   },
   handler: async ({ auth, db, storage }, { body, imageId }) => {
+    if (body.length > 1000) throw new Error("message too long");
+    if (body.length < 5) throw new Error("message too short");
     const user = await getMe({ auth, db });
     await db.insert("messages", {
       body,
@@ -125,6 +127,8 @@ export const reply = mutation({
     imageId: v.optional(v.string()),
   },
   handler: async ({ auth, db }, { body, toMessageId, imageId }) => {
+    if (body.length > 1000) throw new Error("message too long");
+    if (body.length < 5) throw new Error("message too short");
     const user = await getMe({ auth, db });
     await db.insert("messages", {
       body,
