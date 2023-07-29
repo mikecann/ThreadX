@@ -9,16 +9,10 @@ export const ensureAuthenticated = async ({ auth }: { auth: QueryCtx["auth"] }) 
 export const findMe = async ({ auth, db }: { auth: QueryCtx["auth"]; db: QueryCtx["db"] }) => {
   const identity = await auth.getUserIdentity();
   if (!identity) return undefined;
-
-  const user = ensure(
-    await db
-      .query("users")
-      .withIndex("by_token", (q) => q.eq("tokenIdentifier", identity.tokenIdentifier))
-      .unique(),
-    "couldnt find user",
-  );
-
-  return user;
+  return db
+    .query("users")
+    .withIndex("by_token", (q) => q.eq("tokenIdentifier", identity.tokenIdentifier))
+    .unique();
 };
 
 export const getMe = async ({ auth, db }: { auth: QueryCtx["auth"]; db: QueryCtx["db"] }) => {

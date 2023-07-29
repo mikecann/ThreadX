@@ -18,10 +18,8 @@ export const Message: React.FC<Props> = ({ message, disableActions }) => {
     <VStack alignItems={"flex-start"}>
       <HStack
         width={"400px"}
-        background={"rgba(0,0,0,0.5)"}
-        borderTop={`1px solid rgba(255,255,255,0.5)`}
-        borderBottom={`1px solid rgba(255,255,255,0.5)`}
-        borderRadius={`2px`}
+        background={"#121212"}
+        borderRadius={`5px`}
         padding={`10px`}
         spacing={"20px"}
         alignItems={"flex-start"}

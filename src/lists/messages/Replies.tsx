@@ -4,7 +4,6 @@ import { DetailedMessage, Message } from "./Message";
 import { NewReplyModal } from "./NewReplyModal";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
-import { BsArrowUpShort } from "react-icons/bs";
 import { BiSolidArrowToTop } from "react-icons/bi";
 import { IoCreate } from "react-icons/io5";
 
@@ -23,6 +22,7 @@ export const Replies: React.FC<Props> = ({ toMessage, onClose }) => {
     <VStack
       marginLeft={"20px"}
       paddingLeft={"20px"}
+      marginBottom={"5px"}
       borderLeft={"1px dashed rgba(255,255,255,0.4)"}
       alignItems={"flex-start"}
     >

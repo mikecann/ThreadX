@@ -5,11 +5,13 @@ import { NewListButton } from "./NewListButton";
 import { useConvexAuth, useQuery } from "convex/react";
 import { AuthenticatedMessageLists } from "./AuthenticatedMessageLists";
 import { iife } from "../common/misc/misc";
+import { api } from "../../convex/_generated/api";
 
 interface Props {}
 
 export const Lists: React.FC<Props> = ({}) => {
-  const { isAuthenticated, isLoading } = useConvexAuth();
+  const { isLoading } = useConvexAuth();
+  const me = useQuery(api.users.findMe);
 
   return (
     <HStack
@@ -20,11 +22,11 @@ export const Lists: React.FC<Props> = ({}) => {
       minHeight={"100vh"}
       maxHeight={"100vh"}
       overflow={"auto"}
-      marginLeft={"70px"}
+      marginLeft={"90px"}
     >
       {iife(() => {
         if (isLoading) return <Spinner />;
-        if (isAuthenticated) return <AuthenticatedMessageLists />;
+        if (me) return <AuthenticatedMessageLists />;
         return <MessageList />;
       })}
       <NewListButton />

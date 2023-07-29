@@ -16,7 +16,7 @@ const convertToDetailedMessage = async ({
   db: DatabaseReader;
   storage: StorageReader;
   messages: Doc<"messages">[];
-  me?: Doc<"users">;
+  me?: Doc<"users"> | null;
 }) =>
   Promise.all(
     messages.map(async (message) => ({

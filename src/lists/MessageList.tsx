@@ -13,8 +13,9 @@ export const MessageList: React.FC<Props> = ({ list }) => {
   return (
     <VStack
       minWidth={`400px`}
-      borderRadius={`2px`}
-      background={`rgba(0,0,0,0.5)`}
+      background={"#242424"}
+      borderRadius={"5px"}
+      boxShadow={"4px 0px 2px #111"}
       padding={`10px 15px 15px 15px`}
       alignItems={"stretch"}
       flexShrink={0}

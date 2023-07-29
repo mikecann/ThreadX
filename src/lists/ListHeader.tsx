@@ -18,7 +18,7 @@ export const ListHeader: React.FC<Props> = ({ list }) => {
   const { onNonCriticalError } = useErrors();
 
   return (
-    <HStack alignItems={"center"}>
+    <HStack alignItems={"center"} color={"white"}>
       <Text flex={1}>{list?.name ?? "All Messages"}</Text>
       <IconButton
         aria-label={`remove list`}

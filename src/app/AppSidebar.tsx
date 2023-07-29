@@ -9,10 +9,13 @@ interface Props {}
 export const AppSidebar: React.FC<Props> = ({}) => {
   return (
     <VStack
-      background={"rgba(0,0,0,1)"}
       minWidth={`20px`}
-      height={`100vh`}
+      height={`calc(100dvh - 20px)`}
+      margin={"10px"}
       position={"fixed"}
+      background={"#1D1D1D"}
+      borderRadius={"5px"}
+      boxShadow={"4px 0px 2px #111"}
       top={0}
       left={0}
       padding={"10px 10px"}

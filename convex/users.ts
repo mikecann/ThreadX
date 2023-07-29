@@ -4,6 +4,7 @@ import { generateRandomHandle } from "../src/common/misc/generateHandle";
 import { iife } from "../src/common/misc/misc";
 import { Doc } from "./_generated/dataModel";
 import { v } from "convex/values";
+import * as misc from "./utils/misc";
 
 export const store = mutation({
   args: {},
@@ -61,4 +62,8 @@ export const get = query({
   handler: async ({ db }, { id }) => {
     return await db.get(id);
   },
+});
+
+export const findMe = query({
+  handler: misc.findMe,
 });
