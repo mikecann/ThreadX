@@ -2,7 +2,7 @@ node_modules
 .DS_Store
 dist
 .env.local
-
+.vite
 .pnp.*
 .yarn/*
 !.yarn/patches
