@@ -48,10 +48,13 @@ export const listAll = query({
   args: {},
   handler: async (context) => {
     const me = await findMe(context);
+
     const messages = await context.db
       .query("messages")
       .filter((q) => q.eq(q.field("isReplyToMessageId"), undefined))
+      .order("desc")
       .take(maxNumberOfMessagesReturned);
+
     return convertToDetailedMessage({ ...context, messages, me });
   },
 });
@@ -68,7 +71,10 @@ export const listForList = query({
 
     const query = match(list, {
       all_messages: () =>
-        context.db.query("messages").filter((q) => q.eq(q.field("isReplyToMessageId"), undefined)),
+        context.db
+          .query("messages")
+          .order("desc")
+          .filter((q) => q.eq(q.field("isReplyToMessageId"), undefined)),
 
       search: ({ query, includeReplies }) => {
         let q = context.db
@@ -82,7 +88,6 @@ export const listForList = query({
     });
 
     const messages = await query.take(maxNumberOfMessagesReturned);
-
     return convertToDetailedMessage({ ...context, messages, me });
   },
 });
@@ -97,6 +102,7 @@ export const listReplies = query({
     const messages = await context.db
       .query("messages")
       .filter((q) => q.eq(q.field("isReplyToMessageId"), toMessageId))
+      .order("desc")
       .take(maxNumberOfMessagesReturned);
 
     return convertToDetailedMessage({ ...context, messages, me });
