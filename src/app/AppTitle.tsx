@@ -5,14 +5,7 @@ interface Props {}
 
 export const AppTitle: React.FC<Props> = ({}) => {
   return (
-    <Box
-      css={{
-        position: "relative",
-        width: `1px`,
-        height: `1px`,
-        overflow: "visible",
-      }}
-    >
+    <Box position={"relative"} width={"1px"} height={"1px"} overflow={"visible"}>
       <Text
         position={"absolute"}
         top={0}
@@ -23,11 +16,12 @@ export const AppTitle: React.FC<Props> = ({}) => {
         fontWeight={"bold"}
         color={"white"}
         opacity={0.5}
+        userSelect={"none"}
+        cursor={"pointer"}
+        _hover={{ opacity: 0.9 }}
+        onClick={() => window.open(`https://mikecann.co.uk/posts/tinkering-with-convex`, `_blank`)}
       >
         ThreadX
-        {/*<span style={{ color: "#F5B01A" }}>V</span>*/}
-        {/*<span style={{ color: "#EE342F" }}>e</span>*/}
-        {/*<span style={{ color: "#8D2576" }}>x</span>*/}
       </Text>
     </Box>
   );
