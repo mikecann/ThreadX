@@ -7,6 +7,8 @@ import { Doc } from "./_generated/dataModel";
 import { StorageReader } from "convex/server";
 import { match } from "../src/common/misc/match";
 
+const maxNumberOfMessagesReturned = 25;
+
 const convertToDetailedMessage = async ({
   db,
   messages,
@@ -49,7 +51,7 @@ export const listAll = query({
     const messages = await context.db
       .query("messages")
       .filter((q) => q.eq(q.field("isReplyToMessageId"), undefined))
-      .take(10);
+      .take(maxNumberOfMessagesReturned);
     return convertToDetailedMessage({ ...context, messages, me });
   },
 });
@@ -79,7 +81,7 @@ export const listForList = query({
       },
     });
 
-    const messages = await query.take(10);
+    const messages = await query.take(maxNumberOfMessagesReturned);
 
     return convertToDetailedMessage({ ...context, messages, me });
   },
@@ -95,7 +97,7 @@ export const listReplies = query({
     const messages = await context.db
       .query("messages")
       .filter((q) => q.eq(q.field("isReplyToMessageId"), toMessageId))
-      .take(10);
+      .take(maxNumberOfMessagesReturned);
 
     return convertToDetailedMessage({ ...context, messages, me });
   },
