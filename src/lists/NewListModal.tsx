@@ -32,6 +32,20 @@ interface Props {
   onClose: () => unknown;
 }
 
+type List =
+  | {
+      kind: "all_messages";
+      ownerId: string;
+      name: string;
+    }
+  | {
+      kind: "search";
+      ownerId: string;
+      name: string;
+      query: string;
+      includeReplies: boolean;
+    };
+
 type ListData = (typeof api.lists.create)["_args"]["data"];
 type ListKind = ListData["kind"];
 
@@ -88,15 +102,15 @@ export const NewListModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 }}
               />
             </FormControl>
-            <FormControl>
-              <FormLabel>List Kind</FormLabel>
-              <RadioGroup onChange={(e) => setKind(e as ListKind)} value={kind}>
-                <Stack direction="row">
-                  <Radio value="all_messages">All Messages</Radio>
-                  <Radio value="search">Search</Radio>
-                </Stack>
-              </RadioGroup>
-            </FormControl>
+            {/*<FormControl>*/}
+            {/*  <FormLabel>List Kind</FormLabel>*/}
+            {/*  <RadioGroup onChange={(e) => setKind(e as ListKind)} value={kind}>*/}
+            {/*    <Stack direction="row">*/}
+            {/*      <Radio value="all_messages">All Messages</Radio>*/}
+            {/*      <Radio value="search">Search</Radio>*/}
+            {/*    </Stack>*/}
+            {/*  </RadioGroup>*/}
+            {/*</FormControl>*/}
 
             {match(kind, {
               search: () => (
