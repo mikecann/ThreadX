@@ -15,7 +15,7 @@
     "@clerk/clerk-react": "^4.23.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "convex": "^0.19.1",
+    "convex": "^1.7.1",
     "framer-motion": "^10.13.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
