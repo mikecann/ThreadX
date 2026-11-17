@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.0",
-    "@clerk/clerk-react": "^4.23.0",
+    "@clerk/clerk-react": "^5.61.3",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "convex": "^1.50.0",

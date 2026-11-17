@@ -29,7 +29,7 @@ export const MyAvatar: React.FC<Props> = ({ children }) => {
       <Menu strategy={"absolute"}>
         <MenuButton
           as={Avatar}
-          src={isAuthenticated ? user?.profileImageUrl : undefined}
+          src={isAuthenticated ? user?.imageUrl : undefined}
           cursor={"pointer"}
           aria-label="Options"
         ></MenuButton>

@@ -1,4 +1,5 @@
-import { mutation } from "./_generated/server";
+import { mutation, MutationCtx } from "./_generated/server";
+import { Id } from "./_generated/dataModel";
 import { v } from "convex/values";
 import { getMe } from "./utils/misc";
 import { ensure } from "../src/common/misc/ensure";
@@ -24,18 +25,22 @@ export const create = mutation({
   },
 });
 
+// Shared by remove and removeForMessage. A mutation can't call another
+// registered mutation directly, so the logic lives in a plain function.
+const removeLike = async ({ auth, db }: MutationCtx, id: Id<"likes">) => {
+  const user = await getMe({ auth, db });
+  const like = ensure(await db.get(id), `couldnt get like ${id}`);
+  if (like.likerId !== user._id) throw new Error("not allowed");
+  await db.delete(id);
+  const message = ensure(await db.get(like.messageId), `couldnt get message ${id}`);
+  await db.patch(message._id, { likes: message.likes - BigInt(1) });
+};
+
 export const remove = mutation({
   args: {
     id: v.id("likes"),
   },
-  handler: async ({ auth, db }, { id }) => {
-    const user = await getMe({ auth, db });
-    const like = ensure(await db.get(id), `couldnt get like ${id}`);
-    if (like.likerId !== user._id) throw new Error("not allowed");
-    await db.delete(id);
-    const message = ensure(await db.get(like.messageId), `couldnt get message ${id}`);
-    await db.patch(message._id, { likes: message.likes - BigInt(1) });
-  },
+  handler: (ctx, { id }) => removeLike(ctx, id),
 });
 
 export const removeForMessage = mutation({
@@ -54,6 +59,6 @@ export const removeForMessage = mutation({
 
     if (!like) return;
 
-    await remove(context, { id: like._id });
+    await removeLike(context, like._id);
   },
 });
